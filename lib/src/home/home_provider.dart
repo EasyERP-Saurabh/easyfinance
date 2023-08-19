@@ -5,6 +5,7 @@ class HomeProvider extends ChangeNotifier {
   bool isAwaiterVisible = false;
   List<Home> homeMenus = [
     Home('Categories', Icons.category),
+    Home('Accounts', Icons.account_balance),
     Home('Transactions', Icons.sync_alt),
   ];
 

@@ -1,36 +1,36 @@
-import 'package:easyfinance/src/category/category_class.dart';
+import 'package:easyfinance/src/account/account_class.dart';
 import 'package:easyfinance/src/common/api.dart';
 import 'package:easyfinance/src/common/form_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class CategoryRevisionProvider extends ChangeNotifier {
+class AccountRevisionProvider extends ChangeNotifier {
   bool isAwaiterVisible = false;
 
-  final categoryRevisionFormKey = GlobalKey<FormState>();
+  final accountRevisionFormKey = GlobalKey<FormState>();
   final idController = TextEditingController();
   final descriptionController = TextEditingController();
 
   late FormMode formMode;
 
-  CategoryType? categoryType;
+  AccountType? accountType;
 
-  CategoryRevisionProvider(BuildContext context, {int? id}) {
+  AccountRevisionProvider(BuildContext context, {int? id}) {
     if (id == null) {
       formMode = FormMode.insert;
-      categoryType = CategoryType.expenditure;
+      accountType = AccountType.bank;
     } else {
       formMode = FormMode.update;
       idController.text = id.toString();
-      readCategory(id);
+      readAccount(id);
     }
   }
 
-  readCategory(int id) async {
+  readAccount(int id) async {
     try {
       setAwaiterVisibility(true);
-      var response = await http.post(Api.categoryRead,
+      var response = await http.post(Api.accountRead,
           headers: Api.headers, body: convert.jsonEncode({'id': id}));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
       var jsonResponse = convert.jsonDecode(response.body);
@@ -47,7 +47,7 @@ class CategoryRevisionProvider extends ChangeNotifier {
       debugPrint(jsonResponse['message']);
       idController.text = jsonResponse['data']['id'];
       descriptionController.text = jsonResponse['data']['description'];
-      categoryType = getCategoryType(jsonResponse['data']['category_type']);
+      accountType = getAccountType(jsonResponse['data']['account_type']);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
@@ -55,21 +55,21 @@ class CategoryRevisionProvider extends ChangeNotifier {
     }
   }
 
-  insertCategory(BuildContext context) async {
+  insertAccount(BuildContext context) async {
     try {
       setAwaiterVisibility(true);
-      if (categoryType == null) throw Exception('Select Category Type');
-      if (!categoryRevisionFormKey.currentState!.validate()) {
+      if (accountType == null) throw Exception('Select Account Type');
+      if (!accountRevisionFormKey.currentState!.validate()) {
         throw Exception('Invalid Input');
       }
-      var response = await http.post(Api.categoryInsert,
+      var response = await http.post(Api.accountInsert,
           headers: Api.headers,
           body: convert.jsonEncode({
             'description': descriptionController.text.trim(),
-            'category_type': categoryType!.value,
+            'account_type': accountType!.value,
             'user': 'user1',
             'datetime': '2023-08-19 11:14:30',
-            'program_id': 'category_revision',
+            'program_id': 'account_revision',
             'machine_id': 'ipaddress'
           }));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
@@ -93,22 +93,22 @@ class CategoryRevisionProvider extends ChangeNotifier {
     }
   }
 
-  updateCategory(BuildContext context) async {
+  updateAccount(BuildContext context) async {
     try {
       setAwaiterVisibility(true);
-      if (categoryType == null) throw Exception('Select Category Type');
-      if (!categoryRevisionFormKey.currentState!.validate()) {
+      if (accountType == null) throw Exception('Select Account Type');
+      if (!accountRevisionFormKey.currentState!.validate()) {
         throw Exception('Invalid Input');
       }
-      var response = await http.post(Api.categoryUpdate,
+      var response = await http.post(Api.accountUpdate,
           headers: Api.headers,
           body: convert.jsonEncode({
             'id': idController.text,
             'description': descriptionController.text.trim(),
-            'category_type': categoryType!.value,
+            'account_type': accountType!.value,
             'user': 'user1',
             'datetime': '2023-08-19 11:14:30',
-            'program_id': 'category_revision',
+            'program_id': 'account_revision',
             'machine_id': 'ipaddress'
           }));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
@@ -132,10 +132,10 @@ class CategoryRevisionProvider extends ChangeNotifier {
     }
   }
 
-  deleteCategory() async {
+  deleteAccount() async {
     try {
       setAwaiterVisibility(true);
-      var response = await http.post(Api.categoryDelete,
+      var response = await http.post(Api.accountDelete,
           headers: Api.headers,
           body: convert.jsonEncode({'id': idController.text}));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
@@ -158,8 +158,8 @@ class CategoryRevisionProvider extends ChangeNotifier {
     }
   }
 
-  setCategoryType(CategoryType newCategoryType) {
-    categoryType = newCategoryType;
+  setAccountType(AccountType newAccountType) {
+    accountType = newAccountType;
     notifyListeners();
   }
 

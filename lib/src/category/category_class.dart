@@ -21,7 +21,7 @@ extension CategoryTypeExtension on CategoryType {
       };
 }
 
-CategoryType? getCategorytype(String value) => switch (value) {
+CategoryType? getCategoryType(String value) => switch (value) {
       'I' => CategoryType.income,
       'E' => CategoryType.expenditure,
       _ => null

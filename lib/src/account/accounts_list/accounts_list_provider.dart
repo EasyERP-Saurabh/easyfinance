@@ -1,23 +1,23 @@
-import 'package:easyfinance/src/category/category_class.dart';
+import 'package:easyfinance/src/account/account_class.dart';
 import 'package:easyfinance/src/common/api.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class CategoriesListProvider extends ChangeNotifier {
+class AccountsListProvider extends ChangeNotifier {
   bool isAwaiterVisible = false;
 
-  List<CategoryClass> catagories = [];
+  List<AccountClass> accounts = [];
 
-  CategoriesListProvider(BuildContext context) {
-    getCategories();
+  AccountsListProvider(BuildContext context) {
+    getAccounts();
   }
 
-  getCategories() async {
+  getAccounts() async {
     try {
       setAwaiterVisibility(true);
-      catagories = [];
-      var response = await http.post(Api.categoriesList,
+      accounts = [];
+      var response = await http.post(Api.accountsList,
           headers: Api.headers, body: convert.jsonEncode({}));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
       var jsonResponse = convert.jsonDecode(response.body);
@@ -32,11 +32,11 @@ class CategoriesListProvider extends ChangeNotifier {
       }
 
       debugPrint(jsonResponse['message']);
-      for (var categoryJson in jsonResponse['data']) {
-        catagories.add(CategoryClass(
-          id: int.parse(categoryJson['id']),
-          description: categoryJson['description'],
-          categoryType: categoryJson['category_type'],
+      for (var accountJson in jsonResponse['data']) {
+        accounts.add(AccountClass(
+          id: int.parse(accountJson['id']),
+          description: accountJson['description'],
+          accountType: accountJson['account_type'],
         ));
       }
     } catch (e) {
@@ -46,10 +46,10 @@ class CategoriesListProvider extends ChangeNotifier {
     }
   }
 
-  deleteCategory(int id) async {
+  deleteAccount(int id) async {
     try {
       setAwaiterVisibility(true);
-      var response = await http.post(Api.categoryDelete,
+      var response = await http.post(Api.accountDelete,
           headers: Api.headers, body: convert.jsonEncode({'id': id}));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
       var jsonResponse = convert.jsonDecode(response.body);

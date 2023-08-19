@@ -1,26 +1,26 @@
-import 'package:easyfinance/src/category/categories_list/categories_list_provider.dart';
-import 'package:easyfinance/src/category/category_revision/category_revision_view.dart';
+import 'package:easyfinance/src/account/accounts_list/accounts_list_provider.dart';
+import 'package:easyfinance/src/account/account_revision/account_revision_view.dart';
 import 'package:easyfinance/src/common/messagedialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CategoriesListView extends StatelessWidget {
-  const CategoriesListView({super.key});
+class AccountsListView extends StatelessWidget {
+  const AccountsListView({super.key});
 
-  static const routeName = '/categories_list';
+  static const routeName = '/accounts_list';
 
   @override
   Widget build(BuildContext context) {
-    final categoriesListProvider = Provider.of<CategoriesListProvider>(context);
+    final accountsListProvider = Provider.of<AccountsListProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Catagories Lists'),
+        title: const Text('Accounts Lists'),
         actions: [
           IconButton(
               onPressed: () async {
                 await Navigator.pushNamed(
-                    context, CategoryRevisionView.routeName);
-                await categoriesListProvider.getCategories();
+                    context, AccountRevisionView.routeName);
+                await accountsListProvider.getAccounts();
               },
               icon: const Icon(Icons.add_box))
         ],
@@ -35,9 +35,8 @@ class CategoriesListView extends StatelessWidget {
                       flex: 1, child: Text('ID', textAlign: TextAlign.center)),
                   Expanded(
                       flex: 2,
-                      child:
-                          Text('Category Type', textAlign: TextAlign.center)),
-                  Expanded(flex: 3, child: Text('Category Description')),
+                      child: Text('Account Type', textAlign: TextAlign.center)),
+                  Expanded(flex: 3, child: Text('Account Description')),
                   Expanded(
                       flex: 1,
                       child: Text('Action', textAlign: TextAlign.center)),
@@ -47,7 +46,7 @@ class CategoriesListView extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: categoriesListProvider.catagories.length,
+                itemCount: accountsListProvider.accounts.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Row(
@@ -55,18 +54,18 @@ class CategoriesListView extends StatelessWidget {
                         Expanded(
                             flex: 1,
                             child: Text(
-                                '${categoriesListProvider.catagories[index].id}',
+                                '${accountsListProvider.accounts[index].id}',
                                 textAlign: TextAlign.center)),
                         Expanded(
                             flex: 2,
                             child: Text(
-                                categoriesListProvider
-                                    .catagories[index].categoryType,
+                                accountsListProvider
+                                    .accounts[index].accountType,
                                 textAlign: TextAlign.center)),
                         Expanded(
                             flex: 3,
-                            child: Text(categoriesListProvider
-                                .catagories[index].description)),
+                            child: Text(accountsListProvider
+                                .accounts[index].description)),
                         Expanded(
                             flex: 1,
                             child: IconButton(
@@ -78,11 +77,10 @@ class CategoriesListView extends StatelessWidget {
                                             context, 'Are you sure?'),
                                   );
                                   if (confirmDelete) {
-                                    await categoriesListProvider.deleteCategory(
-                                        categoriesListProvider
-                                            .catagories[index].id);
-                                    await categoriesListProvider
-                                        .getCategories();
+                                    await accountsListProvider.deleteAccount(
+                                        accountsListProvider
+                                            .accounts[index].id);
+                                    await accountsListProvider.getAccounts();
                                   }
                                 },
                                 icon: const Icon(Icons.delete))),
@@ -90,10 +88,9 @@ class CategoriesListView extends StatelessWidget {
                     ),
                     onTap: () async {
                       await Navigator.pushNamed(
-                          context, CategoryRevisionView.routeName,
-                          arguments:
-                              categoriesListProvider.catagories[index].id);
-                      await categoriesListProvider.getCategories();
+                          context, AccountRevisionView.routeName,
+                          arguments: accountsListProvider.accounts[index].id);
+                      await accountsListProvider.getAccounts();
                     },
                   );
                 },
@@ -102,7 +99,7 @@ class CategoriesListView extends StatelessWidget {
           ],
         ),
         Visibility(
-          visible: categoriesListProvider.isAwaiterVisible,
+          visible: accountsListProvider.isAwaiterVisible,
           child: const Center(child: Text('Loading')),
         ),
       ]),
