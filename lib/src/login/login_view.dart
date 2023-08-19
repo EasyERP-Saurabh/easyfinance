@@ -1,15 +1,16 @@
-import 'package:easyfinance/src/day1/login/login_provider_day1.dart';
+import 'package:easyfinance/src/common/validators.dart';
+import 'package:easyfinance/src/login/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginViewDay1 extends StatelessWidget {
-  const LoginViewDay1({super.key});
+class LoginView extends StatelessWidget {
+  const LoginView({super.key});
 
-  static const routeName = '/login_day1';
+  static const routeName = '/login';
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<LoginProviderDay1>(context);
+    final loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Stack(children: [
@@ -20,23 +21,29 @@ class LoginViewDay1 extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  validator: (value) => Validators.isEmptyValidator(value),
+                  decoration: const InputDecoration(hintText: 'User ID'),
                   controller: loginProvider.userIdController,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  validator: (value) => Validators.isEmptyValidator(value),
+                  decoration: const InputDecoration(hintText: 'Password'),
                   controller: loginProvider.passwordController,
                 ),
               ),
               TextButton(
-                  onPressed: () {
-                    loginProvider.login();
-                  },
+                  onPressed: () => loginProvider.login(context),
                   child: const Text('Login'))
             ],
           ),
-        )
+        ),
+        Visibility(
+          visible: loginProvider.isAwaiterVisible,
+          child: const Center(child: Text('Loading')),
+        ),
       ]),
     );
   }
