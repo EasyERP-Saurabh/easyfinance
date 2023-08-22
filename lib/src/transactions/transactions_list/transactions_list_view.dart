@@ -93,9 +93,6 @@ class TransactionsListView extends StatelessWidget {
                             flex: 3,
                             child: Text(transactionsListProvider
                                 .transactions[index].remark)),
-                        const Expanded(
-                            flex: 1,
-                            child: Text('Action', textAlign: TextAlign.center)),
                         Expanded(
                             flex: 1,
                             child: IconButton(
