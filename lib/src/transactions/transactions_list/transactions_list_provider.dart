@@ -37,11 +37,40 @@ class TransactionsListProvider extends ChangeNotifier {
           id: int.parse(transactionJson['id']),
           transactionDate: DateTime.parse(transactionJson['transaction_date']),
           categoryId: int.parse(transactionJson['category_id']),
+          categoryDescription: transactionJson['category_description'],
+          categoryType: transactionJson['category_type'],
           accountId: int.parse(transactionJson['account_id']),
+          accountDescription: transactionJson['account_description'],
+          accountType: transactionJson['account_type'],
           amount: double.parse(transactionJson['amount']),
           remark: transactionJson['remark'],
         ));
       }
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      setAwaiterVisibility(false);
+    }
+  }
+
+  deleteTransaction(int id) async {
+    try {
+      setAwaiterVisibility(true);
+      var response = await http.post(Api.transactionDelete,
+          headers: Api.headers, body: convert.jsonEncode({'id': id}));
+      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+      var jsonResponse = convert.jsonDecode(response.body);
+
+      if (!jsonResponse['success']) {
+        throw Exception('Request Failed: ${jsonResponse['message']}');
+      }
+
+      if (jsonResponse['code'] != 1) {
+        throw Exception(
+            'Error Code ${jsonResponse['code']}: ${jsonResponse['message']}');
+      }
+
+      debugPrint(jsonResponse['message']);
     } catch (e) {
       debugPrint(e.toString());
     } finally {

@@ -6,6 +6,12 @@ import 'package:easyfinance/src/category/categories_list/categories_list_provide
 import 'package:easyfinance/src/category/categories_list/categories_list_view.dart';
 import 'package:easyfinance/src/category/category_revision/category_revision_provider.dart';
 import 'package:easyfinance/src/category/category_revision/category_revision_view.dart';
+//ksutar 22/aug: added transaction
+import 'package:easyfinance/src/transactions/transactions_list/transactions_list_provider.dart';
+import 'package:easyfinance/src/transactions/transactions_list/transactions_list_view.dart';
+import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_provider.dart';
+import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_view.dart';
+//
 import 'package:easyfinance/src/home/home_provider.dart';
 import 'package:easyfinance/src/home/home_view.dart';
 import 'package:easyfinance/src/login/login_provider.dart';
@@ -51,15 +57,15 @@ class MyApp extends StatelessWidget {
                         id: routeSettings.arguments as int?),
                     child: const AccountRevisionView());
               //Transaction
-              // case CategoriesListView.routeName:
-              //   return ChangeNotifierProvider(
-              //       create: (context) => CategoriesListProvider(context),
-              //       child: const CategoriesListView());
-              // case CategoryRevisionView.routeName:
-              //   return ChangeNotifierProvider(
-              //       create: (context) => CategoryRevisionProvider(context,
-              //           id: routeSettings.arguments as int?),
-              //       child: const CategoryRevisionView());
+              case TransactionsListView.routeName:
+                return ChangeNotifierProvider(
+                    create: (context) => TransactionsListProvider(context),
+                    child: const TransactionsListView());
+              case TransactionRevisionView.routeName:
+                return ChangeNotifierProvider(
+                    create: (context) => TransactionRevisionProvider(context,
+                        id: routeSettings.arguments as int?),
+                    child: const TransactionRevisionView());
               case LoginView.routeName:
               default:
                 return ChangeNotifierProvider(

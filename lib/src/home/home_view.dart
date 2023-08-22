@@ -1,5 +1,6 @@
 import 'package:easyfinance/src/account/accounts_list/accounts_list_view.dart';
 import 'package:easyfinance/src/category/categories_list/categories_list_view.dart';
+import 'package:easyfinance/src/transactions/transactions_list/transactions_list_view.dart';
 import 'package:easyfinance/src/home/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,9 @@ class HomeView extends StatelessWidget {
                   Navigator.pushNamed(context, CategoriesListView.routeName);
                 case 1:
                   Navigator.pushNamed(context, AccountsListView.routeName);
+                //ksutar 22/aug:
                 case 2:
-                // Navigator.pushNamed(context, TransactionsListView.routeName);
+                  Navigator.pushNamed(context, TransactionsListView.routeName);
               }
             },
             child: Column(
