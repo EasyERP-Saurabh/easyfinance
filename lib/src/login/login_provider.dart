@@ -16,6 +16,11 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  togglePasswordVisibility() {
+    isPasswordVisible = !isPasswordVisible;
+    notifyListeners();
+  }
+
   login(BuildContext context) async {
     try {
       if (!loginFormKey.currentState!.validate()) {

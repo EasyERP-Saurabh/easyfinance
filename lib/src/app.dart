@@ -13,8 +13,8 @@ import 'package:easyfinance/src/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MyAppDay1 extends StatelessWidget {
-  const MyAppDay1({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

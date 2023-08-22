@@ -29,8 +29,17 @@ class LoginView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  obscureText: !loginProvider.isPasswordVisible,
                   validator: (value) => Validators.isEmptyValidator(value),
-                  decoration: const InputDecoration(hintText: 'Password'),
+                  decoration: InputDecoration(
+                      hintText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(loginProvider.isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () =>
+                            loginProvider.togglePasswordVisibility(),
+                      )),
                   controller: loginProvider.passwordController,
                 ),
               ),
