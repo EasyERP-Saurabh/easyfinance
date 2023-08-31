@@ -1,5 +1,6 @@
 import 'package:easyfinance/src/account/account_class.dart';
 import 'package:easyfinance/src/category/category_class.dart';
+import 'package:easyfinance/src/common/listdialog.dart';
 import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_provider.dart';
 import 'package:easyfinance/src/common/form_enum.dart';
 import 'package:easyfinance/src/common/messagedialog.dart';
@@ -58,7 +59,21 @@ class TransactionRevisionView extends StatelessWidget {
                 child: TextFormField(
                   validator: (value) => Validators.isEmptyValidator(value),
                   decoration: const InputDecoration(hintText: 'Date'),
-                  onTap: () {},
+                  onTap: () async {
+                    //             DateTime? selectedDate = await showDatePicker(
+                    //     context: context,
+                    //     initialDate: transactionRevisionProvider.date,
+                    //     firstDate: DateTime(1900),
+                    //     lastDate: DateTime(9999));
+                    // if (selectedDate != null) {
+                    //   field.controller.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+                    //   field.isSelected = true;
+                    // } else {
+                    //   field.controller.clear();
+                    //   field.isSelected = false;
+                    // }
+                    // field.value = selectedDate; //dd-MMM-yyyy
+                  },
                   controller: transactionRevisionProvider.remarkController,
                 ),
               ),
@@ -78,45 +93,15 @@ class TransactionRevisionView extends StatelessWidget {
                   controller: transactionRevisionProvider.amountController,
                 ),
               ),
-              DropdownButton<CategoryClass>(
-                // Initial Value
-                value: transactionRevisionProvider.category,
-                hint: const Text('Select Category'),
-                // Down Arrow Icon
-                icon: const Icon(Icons.keyboard_arrow_down),
-                // Array list of items
-                items: transactionRevisionProvider.categories
-                    .map((CategoryClass items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: Text(items.description),
-                  );
-                }).toList(),
-                // After selecting the desired option,it will
-                // change button value to selected value
-                onChanged: (CategoryClass? newValue) {
-                  transactionRevisionProvider.setCategory(newValue);
-                },
-              ),
-              DropdownButton<AccountClass>(
-                // Initial Value
-                value: transactionRevisionProvider.account,
-                hint: const Text('Select Account'),
-                // Down Arrow Icon
-                icon: const Icon(Icons.keyboard_arrow_down),
-                // Array list of items
-                items: transactionRevisionProvider.accounts
-                    .map((AccountClass items) {
-                  return DropdownMenuItem(
-                    value: items,
-                    child: Text(items.description),
-                  );
-                }).toList(),
-                // After selecting the desired option,it will
-                // change button value to selected value
-                onChanged: (AccountClass? newValue) {
-                  transactionRevisionProvider.setAccount(newValue);
-                },
+              ListTile(
+                title: Text(transactionRevisionProvider.category?.description ??
+                    'Select Category'),
+                onTap: () async => transactionRevisionProvider
+                    .setCategory(await showDialog<CategoryClass>(
+                  context: context,
+                  builder: (context) => ListDialog.getCategoryListDialog(
+                      context, transactionRevisionProvider.categories),
+                )),
               ),
               TextButton(
                   onPressed: () async {

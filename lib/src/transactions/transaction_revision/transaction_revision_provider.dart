@@ -57,17 +57,11 @@ class TransactionRevisionProvider extends ChangeNotifier {
 
       debugPrint(jsonResponse['message']);
       for (var categoryJson in jsonResponse['data']) {
-        if (!categories.contains(CategoryClass(
+        categories.add(CategoryClass(
           id: int.parse(categoryJson['id']),
           description: categoryJson['description'],
           categoryType: categoryJson['category_type'],
-        ))) {
-          categories.add(CategoryClass(
-            id: int.parse(categoryJson['id']),
-            description: categoryJson['description'],
-            categoryType: categoryJson['category_type'],
-          ));
-        }
+        ));
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -97,17 +91,11 @@ class TransactionRevisionProvider extends ChangeNotifier {
 
       debugPrint(jsonResponse['message']);
       for (var accountJson in jsonResponse['data']) {
-        if (!accounts.contains(AccountClass(
+        accounts.add(AccountClass(
           id: int.parse(accountJson['id']),
           description: accountJson['description'],
           accountType: accountJson['account_type'],
-        ))) {
-          accounts.add(AccountClass(
-            id: int.parse(accountJson['id']),
-            description: accountJson['description'],
-            accountType: accountJson['account_type'],
-          ));
-        }
+        ));
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -144,12 +132,6 @@ class TransactionRevisionProvider extends ChangeNotifier {
           id: int.parse(jsonResponse['data']['account_id']),
           accountType: jsonResponse['data']['account_type'],
           description: jsonResponse['data']['account_description']);
-      // if (!categories.contains(category)) {
-      //   categories.add(category!);
-      // }
-      // if (!accounts.contains(account)) {
-      //   accounts.add(account!);
-      // }
       remarkController.text = jsonResponse['data']['remark'];
       amountController.text = jsonResponse['data']['amount'];
       date = DateTime.parse(jsonResponse['data']['transaction_date']);
