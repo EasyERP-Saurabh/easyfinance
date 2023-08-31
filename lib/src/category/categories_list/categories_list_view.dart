@@ -47,7 +47,7 @@ class CategoriesListView extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: categoriesListProvider.catagories.length,
+                itemCount: categoriesListProvider.categories.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Row(
@@ -55,18 +55,18 @@ class CategoriesListView extends StatelessWidget {
                         Expanded(
                             flex: 1,
                             child: Text(
-                                '${categoriesListProvider.catagories[index].id}',
+                                '${categoriesListProvider.categories[index].id}',
                                 textAlign: TextAlign.center)),
                         Expanded(
                             flex: 2,
                             child: Text(
                                 categoriesListProvider
-                                    .catagories[index].categoryType,
+                                    .categories[index].categoryType,
                                 textAlign: TextAlign.center)),
                         Expanded(
                             flex: 3,
                             child: Text(categoriesListProvider
-                                .catagories[index].description)),
+                                .categories[index].description)),
                         Expanded(
                             flex: 1,
                             child: IconButton(
@@ -80,7 +80,7 @@ class CategoriesListView extends StatelessWidget {
                                   if (confirmDelete) {
                                     await categoriesListProvider.deleteCategory(
                                         categoriesListProvider
-                                            .catagories[index].id);
+                                            .categories[index].id);
                                     await categoriesListProvider
                                         .getCategories();
                                   }
@@ -92,7 +92,7 @@ class CategoriesListView extends StatelessWidget {
                       await Navigator.pushNamed(
                           context, CategoryRevisionView.routeName,
                           arguments:
-                              categoriesListProvider.catagories[index].id);
+                              categoriesListProvider.categories[index].id);
                       await categoriesListProvider.getCategories();
                     },
                   );

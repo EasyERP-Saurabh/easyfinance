@@ -7,7 +7,7 @@ import 'dart:convert' as convert;
 class CategoriesListProvider extends ChangeNotifier {
   bool isAwaiterVisible = false;
 
-  List<CategoryClass> catagories = [];
+  List<CategoryClass> categories = [];
 
   CategoriesListProvider(BuildContext context) {
     getCategories();
@@ -16,7 +16,7 @@ class CategoriesListProvider extends ChangeNotifier {
   getCategories() async {
     try {
       setAwaiterVisibility(true);
-      catagories = [];
+      categories = [];
       var response = await http.post(Api.categoriesList,
           headers: Api.headers, body: convert.jsonEncode({}));
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
@@ -33,7 +33,7 @@ class CategoriesListProvider extends ChangeNotifier {
 
       debugPrint(jsonResponse['message']);
       for (var categoryJson in jsonResponse['data']) {
-        catagories.add(CategoryClass(
+        categories.add(CategoryClass(
           id: int.parse(categoryJson['id']),
           description: categoryJson['description'],
           categoryType: categoryJson['category_type'],

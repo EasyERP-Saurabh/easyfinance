@@ -23,6 +23,8 @@ class LoginProvider extends ChangeNotifier {
 
   login(BuildContext context) async {
     try {
+      userIdController.text = 'user1';
+      passwordController.text = '1234';
       if (!loginFormKey.currentState!.validate()) {
         throw Exception('Invalid Values');
       }

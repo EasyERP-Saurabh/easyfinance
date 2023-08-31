@@ -1,3 +1,4 @@
+import 'package:easyfinance/src/account/account_class.dart';
 import 'package:easyfinance/src/category/category_class.dart';
 import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_provider.dart';
 import 'package:easyfinance/src/common/form_enum.dart';
@@ -17,7 +18,7 @@ class TransactionRevisionView extends StatelessWidget {
         Provider.of<TransactionRevisionProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Category Revision'),
+        title: const Text('Transaction Revision'),
         actions: [
           if (transactionRevisionProvider.formMode == FormMode.update)
             IconButton(
@@ -56,31 +57,66 @@ class TransactionRevisionView extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   validator: (value) => Validators.isEmptyValidator(value),
-                  decoration: const InputDecoration(hintText: 'Description'),
-                  controller: transactionRevisionProvider.descriptionController,
+                  decoration: const InputDecoration(hintText: 'Date'),
+                  onTap: () {},
+                  controller: transactionRevisionProvider.remarkController,
                 ),
               ),
-              Row(
-                children: [
-                  TextButton.icon(
-                    label: const Text('Income'),
-                    icon: Icon(transactionRevisionProvider.categoryType ==
-                            CategoryType.income
-                        ? Icons.radio_button_checked
-                        : Icons.radio_button_off),
-                    onPressed: () => transactionRevisionProvider
-                        .setCategoryType(CategoryType.income),
-                  ),
-                  TextButton.icon(
-                    label: const Text('Expenditure'),
-                    icon: Icon(transactionRevisionProvider.categoryType ==
-                            CategoryType.expenditure
-                        ? Icons.radio_button_checked
-                        : Icons.radio_button_off),
-                    onPressed: () => transactionRevisionProvider
-                        .setCategoryType(CategoryType.expenditure),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) => Validators.isEmptyValidator(value),
+                  decoration: const InputDecoration(hintText: 'Description'),
+                  controller: transactionRevisionProvider.remarkController,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) => Validators.isEmptyValidator(value),
+                  decoration: const InputDecoration(hintText: 'Amount'),
+                  controller: transactionRevisionProvider.amountController,
+                ),
+              ),
+              DropdownButton<CategoryClass>(
+                // Initial Value
+                value: transactionRevisionProvider.category,
+                hint: const Text('Select Category'),
+                // Down Arrow Icon
+                icon: const Icon(Icons.keyboard_arrow_down),
+                // Array list of items
+                items: transactionRevisionProvider.categories
+                    .map((CategoryClass items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items.description),
+                  );
+                }).toList(),
+                // After selecting the desired option,it will
+                // change button value to selected value
+                onChanged: (CategoryClass? newValue) {
+                  transactionRevisionProvider.setCategory(newValue);
+                },
+              ),
+              DropdownButton<AccountClass>(
+                // Initial Value
+                value: transactionRevisionProvider.account,
+                hint: const Text('Select Account'),
+                // Down Arrow Icon
+                icon: const Icon(Icons.keyboard_arrow_down),
+                // Array list of items
+                items: transactionRevisionProvider.accounts
+                    .map((AccountClass items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items.description),
+                  );
+                }).toList(),
+                // After selecting the desired option,it will
+                // change button value to selected value
+                onChanged: (AccountClass? newValue) {
+                  transactionRevisionProvider.setAccount(newValue);
+                },
               ),
               TextButton(
                   onPressed: () async {
