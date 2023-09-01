@@ -63,7 +63,7 @@ class CategoryRevisionView extends StatelessWidget {
               Row(
                 children: [
                   TextButton.icon(
-                    label: const Text('Income'),
+                    label: Text(CategoryType.income.label),
                     icon: Icon(categoryRevisionProvider.categoryType ==
                             CategoryType.income
                         ? Icons.radio_button_checked
@@ -72,7 +72,7 @@ class CategoryRevisionView extends StatelessWidget {
                         .setCategoryType(CategoryType.income),
                   ),
                   TextButton.icon(
-                    label: const Text('Expenditure'),
+                    label: Text(CategoryType.expenditure.label),
                     icon: Icon(categoryRevisionProvider.categoryType ==
                             CategoryType.expenditure
                         ? Icons.radio_button_checked

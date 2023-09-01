@@ -2,16 +2,18 @@ import 'package:easyfinance/src/account/account_revision/account_revision_provid
 import 'package:easyfinance/src/account/account_revision/account_revision_view.dart';
 import 'package:easyfinance/src/account/accounts_list/accounts_list_provider.dart';
 import 'package:easyfinance/src/account/accounts_list/accounts_list_view.dart';
+import 'package:easyfinance/src/budget/budget_list/budget_list_provider.dart';
+import 'package:easyfinance/src/budget/budget_list/budget_list_view.dart';
+import 'package:easyfinance/src/budget/budget_revision/budget_revision_provider.dart';
+import 'package:easyfinance/src/budget/budget_revision/budget_revision_view.dart';
 import 'package:easyfinance/src/category/categories_list/categories_list_provider.dart';
 import 'package:easyfinance/src/category/categories_list/categories_list_view.dart';
 import 'package:easyfinance/src/category/category_revision/category_revision_provider.dart';
 import 'package:easyfinance/src/category/category_revision/category_revision_view.dart';
-//ksutar 22/aug: added transaction
 import 'package:easyfinance/src/transactions/transactions_list/transactions_list_provider.dart';
 import 'package:easyfinance/src/transactions/transactions_list/transactions_list_view.dart';
 import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_provider.dart';
 import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_view.dart';
-//
 import 'package:easyfinance/src/home/home_provider.dart';
 import 'package:easyfinance/src/home/home_view.dart';
 import 'package:easyfinance/src/login/login_provider.dart';
@@ -66,6 +68,16 @@ class MyApp extends StatelessWidget {
                     create: (context) => TransactionRevisionProvider(context,
                         id: routeSettings.arguments as int?),
                     child: const TransactionRevisionView());
+              //Budget
+              case BudgetListView.routeName:
+                return ChangeNotifierProvider(
+                    create: (context) => BudgetListProvider(context),
+                    child: const BudgetListView());
+              case BudgetRevisionView.routeName:
+                return ChangeNotifierProvider(
+                    create: (context) => BudgetRevisionProvider(context,
+                        id: routeSettings.arguments as int?),
+                    child: const BudgetRevisionView());
               case LoginView.routeName:
               default:
                 return ChangeNotifierProvider(

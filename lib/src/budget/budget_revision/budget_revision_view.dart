@@ -1,27 +1,25 @@
-import 'package:easyfinance/src/account/account_class.dart';
+import 'package:easyfinance/src/budget/budget_revision/budget_revision_provider.dart';
 import 'package:easyfinance/src/category/category_class.dart';
 import 'package:easyfinance/src/common/listdialog.dart';
-import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_provider.dart';
 import 'package:easyfinance/src/common/form_enum.dart';
 import 'package:easyfinance/src/common/messagedialog.dart';
 import 'package:easyfinance/src/common/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TransactionRevisionView extends StatelessWidget {
-  const TransactionRevisionView({super.key});
+class BudgetRevisionView extends StatelessWidget {
+  const BudgetRevisionView({super.key});
 
-  static const routeName = '/transaction_revision';
+  static const routeName = '/budget_revision';
 
   @override
   Widget build(BuildContext context) {
-    final transactionRevisionProvider =
-        Provider.of<TransactionRevisionProvider>(context);
+    final budgetRevisionProvider = Provider.of<BudgetRevisionProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaction Revision'),
+        title: const Text('Budget Revision'),
         actions: [
-          if (transactionRevisionProvider.formMode == FormMode.update)
+          if (budgetRevisionProvider.formMode == FormMode.update)
             IconButton(
                 onPressed: () async {
                   bool confirmDelete = await showDialog(
@@ -30,7 +28,7 @@ class TransactionRevisionView extends StatelessWidget {
                         MessageDialog.getAlertDialog(context, 'Are you sure?'),
                   );
                   if (confirmDelete) {
-                    await transactionRevisionProvider.deleteTransaction();
+                    await budgetRevisionProvider.deleteBudget();
                     if (context.mounted) Navigator.of(context).pop();
                   }
                 },
@@ -39,33 +37,35 @@ class TransactionRevisionView extends StatelessWidget {
       ),
       body: Stack(children: [
         Form(
-          key: transactionRevisionProvider.transactionRevisionFormKey,
+          key: budgetRevisionProvider.budgetRevisionFormKey,
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   validator: (value) =>
-                      transactionRevisionProvider.formMode == FormMode.update
+                      budgetRevisionProvider.formMode == FormMode.update
                           ? Validators.isEmptyValidator(value)
                           : null,
                   decoration: const InputDecoration(hintText: 'ID'),
                   readOnly: true,
-                  controller: transactionRevisionProvider.idController,
+                  controller: budgetRevisionProvider.idController,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  validator: (value) => Validators.isEmptyValidator(value),
-                  decoration: InputDecoration(
-                      hintText: 'Date',
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.date_range),
-                        onPressed: () async =>
-                            transactionRevisionProvider.showDateHelper(context),
-                      )),
-                  controller: transactionRevisionProvider.dateController,
+                  validator: (value) => Validators.isValidMonth(value),
+                  decoration: const InputDecoration(hintText: 'Month'),
+                  controller: budgetRevisionProvider.monthController,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  validator: (value) => Validators.isValidYear(value),
+                  decoration: const InputDecoration(hintText: 'Year'),
+                  controller: budgetRevisionProvider.yearController,
                 ),
               ),
               Padding(
@@ -73,7 +73,7 @@ class TransactionRevisionView extends StatelessWidget {
                 child: TextFormField(
                   validator: (value) => Validators.isEmptyValidator(value),
                   decoration: const InputDecoration(hintText: 'Description'),
-                  controller: transactionRevisionProvider.remarkController,
+                  controller: budgetRevisionProvider.remarkController,
                 ),
               ),
               Padding(
@@ -81,38 +81,26 @@ class TransactionRevisionView extends StatelessWidget {
                 child: TextFormField(
                   validator: (value) => Validators.isEmptyValidator(value),
                   decoration: const InputDecoration(hintText: 'Amount'),
-                  controller: transactionRevisionProvider.amountController,
+                  controller: budgetRevisionProvider.amountController,
                 ),
               ),
               ListTile(
-                title: Text(transactionRevisionProvider.category?.description ??
+                title: Text(budgetRevisionProvider.category?.description ??
                     'Select Category'),
-                onTap: () async => transactionRevisionProvider
+                onTap: () async => budgetRevisionProvider
                     .setCategory(await showDialog<CategoryClass>(
                   context: context,
                   builder: (context) => ListDialog.getCategoryListDialog(
-                      context, transactionRevisionProvider.categories),
-                )),
-              ),
-              ListTile(
-                title: Text(transactionRevisionProvider.account?.description ??
-                    'Select Account'),
-                onTap: () async => transactionRevisionProvider
-                    .setAccount(await showDialog<AccountClass>(
-                  context: context,
-                  builder: (context) => ListDialog.getAccountListDialog(
-                      context, transactionRevisionProvider.accounts),
+                      context, budgetRevisionProvider.categories),
                 )),
               ),
               TextButton(
                   onPressed: () async {
-                    switch (transactionRevisionProvider.formMode) {
+                    switch (budgetRevisionProvider.formMode) {
                       case FormMode.insert:
-                        await transactionRevisionProvider
-                            .insertTransaction(context);
+                        await budgetRevisionProvider.insertBudget(context);
                       case FormMode.update:
-                        await transactionRevisionProvider
-                            .updateTransaction(context);
+                        await budgetRevisionProvider.updateBudget(context);
                     }
                   },
                   child: const Text('Save'))
@@ -120,7 +108,7 @@ class TransactionRevisionView extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: transactionRevisionProvider.isAwaiterVisible,
+          visible: budgetRevisionProvider.isAwaiterVisible,
           child: const Center(child: Text('Loading')),
         ),
       ]),

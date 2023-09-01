@@ -7,6 +7,7 @@ class HomeProvider extends ChangeNotifier {
     Home('Categories', Icons.category),
     Home('Accounts', Icons.account_balance),
     Home('Transactions', Icons.sync_alt),
+    Home('Budget', Icons.calendar_month),
   ];
 
   setAwaiterVisibility(bool newVisibility) {

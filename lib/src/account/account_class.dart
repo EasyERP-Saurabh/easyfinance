@@ -19,6 +19,11 @@ extension AccountTypeExtension on AccountType {
         AccountType.bank => 'B',
         AccountType.credit => 'R'
       };
+  String get label => switch (this) {
+        AccountType.cash => 'Cash',
+        AccountType.bank => 'Bank',
+        AccountType.credit => 'Credit'
+      };
 }
 
 AccountType? getAccountType(String value) => switch (value) {

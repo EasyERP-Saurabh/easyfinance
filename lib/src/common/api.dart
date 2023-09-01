@@ -38,5 +38,15 @@ class Api {
   static var transactionDelete =
       Uri.https(_host, '/api.easyfinance/transactions/delete.php');
 
+  //Budget
+  static var budgetList = Uri.https(_host, '/api.easyfinance/budget/list.php');
+  static var budgetRead = Uri.https(_host, '/api.easyfinance/budget/read.php');
+  static var budgetInsert =
+      Uri.https(_host, '/api.easyfinance/budget/insert.php');
+  static var budgetUpdate =
+      Uri.https(_host, '/api.easyfinance/budget/update.php');
+  static var budgetDelete =
+      Uri.https(_host, '/api.easyfinance/budget/delete.php');
+
   static Map<String, String> headers = {'Content-Type': 'application/json'};
 }

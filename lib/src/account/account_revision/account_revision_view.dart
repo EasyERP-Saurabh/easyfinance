@@ -63,7 +63,7 @@ class AccountRevisionView extends StatelessWidget {
               Row(
                 children: [
                   TextButton.icon(
-                    label: const Text('Bank'),
+                    label: Text(AccountType.bank.label),
                     icon: Icon(
                         accountRevisionProvider.accountType == AccountType.bank
                             ? Icons.radio_button_checked
@@ -72,7 +72,7 @@ class AccountRevisionView extends StatelessWidget {
                         .setAccountType(AccountType.bank),
                   ),
                   TextButton.icon(
-                    label: const Text('Cash'),
+                    label: Text(AccountType.cash.label),
                     icon: Icon(
                         accountRevisionProvider.accountType == AccountType.cash
                             ? Icons.radio_button_checked
@@ -81,7 +81,7 @@ class AccountRevisionView extends StatelessWidget {
                         .setAccountType(AccountType.cash),
                   ),
                   TextButton.icon(
-                    label: const Text('Credit'),
+                    label: Text(AccountType.credit.label),
                     icon: Icon(accountRevisionProvider.accountType ==
                             AccountType.credit
                         ? Icons.radio_button_checked

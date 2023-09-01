@@ -1,3 +1,5 @@
+import 'package:easyfinance/src/account/account_class.dart';
+import 'package:easyfinance/src/category/category_class.dart';
 import 'package:easyfinance/src/transactions/transactions_list/transactions_list_provider.dart';
 import 'package:easyfinance/src/transactions/transaction_revision/transaction_revision_view.dart';
 import 'package:easyfinance/src/common/messagedialog.dart';
@@ -39,13 +41,14 @@ class TransactionsListView extends StatelessWidget {
                       flex: 2,
                       child: Text('Transaction Date',
                           textAlign: TextAlign.center)),
-                  Expanded(
-                      flex: 3,
-                      child: Text('Description')), //category description
-                  Expanded(flex: 2, child: Text('Type')), //category type
-                  Expanded(flex: 2, child: Text('Account')),
+                  Expanded(flex: 3, child: Text('Description')),
+                  Expanded(flex: 2, child: Text('Category Type')),
                   Expanded(flex: 2, child: Text('Account Type')),
                   Expanded(flex: 3, child: Text('Remark')),
+                  Expanded(
+                    flex: 2,
+                    child: Text('Amount', textAlign: TextAlign.center),
+                  ),
                   Expanded(
                       flex: 1,
                       child: Text('Action', textAlign: TextAlign.center)),
@@ -78,21 +81,28 @@ class TransactionsListView extends StatelessWidget {
                                 .transactions[index].categoryDescription)),
                         Expanded(
                             flex: 2,
-                            child: Text(transactionsListProvider
-                                .transactions[index]
-                                .categoryType)), //category type
+                            child: Text(getCategoryType(transactionsListProvider
+                                        .transactions[index].categoryType)
+                                    ?.label ??
+                                '')),
                         Expanded(
                             flex: 2,
-                            child: Text(
-                                '${transactionsListProvider.transactions[index].accountId}')),
-                        Expanded(
-                            flex: 2,
-                            child: Text(transactionsListProvider
-                                .transactions[index].accountType)),
+                            child: Text(getAccountType(transactionsListProvider
+                                        .transactions[index].accountType)
+                                    ?.label ??
+                                '')),
                         Expanded(
                             flex: 3,
                             child: Text(transactionsListProvider
                                 .transactions[index].remark)),
+                        Expanded(
+                            flex: 2,
+                            child: Text(
+                              transactionsListProvider
+                                  .transactions[index].amount
+                                  .toStringAsFixed(2),
+                              textAlign: TextAlign.center,
+                            )),
                         Expanded(
                             flex: 1,
                             child: IconButton(

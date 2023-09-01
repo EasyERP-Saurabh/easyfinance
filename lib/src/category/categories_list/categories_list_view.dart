@@ -1,4 +1,5 @@
 import 'package:easyfinance/src/category/categories_list/categories_list_provider.dart';
+import 'package:easyfinance/src/category/category_class.dart';
 import 'package:easyfinance/src/category/category_revision/category_revision_view.dart';
 import 'package:easyfinance/src/common/messagedialog.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +61,10 @@ class CategoriesListView extends StatelessWidget {
                         Expanded(
                             flex: 2,
                             child: Text(
-                                categoriesListProvider
-                                    .categories[index].categoryType,
+                                getCategoryType(categoriesListProvider
+                                            .categories[index].categoryType)
+                                        ?.label ??
+                                    '',
                                 textAlign: TextAlign.center)),
                         Expanded(
                             flex: 3,

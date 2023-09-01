@@ -1,3 +1,4 @@
+import 'package:easyfinance/src/account/account_class.dart';
 import 'package:easyfinance/src/account/accounts_list/accounts_list_provider.dart';
 import 'package:easyfinance/src/account/account_revision/account_revision_view.dart';
 import 'package:easyfinance/src/common/messagedialog.dart';
@@ -59,8 +60,10 @@ class AccountsListView extends StatelessWidget {
                         Expanded(
                             flex: 2,
                             child: Text(
-                                accountsListProvider
-                                    .accounts[index].accountType,
+                                getAccountType(accountsListProvider
+                                            .accounts[index].accountType)
+                                        ?.label ??
+                                    '',
                                 textAlign: TextAlign.center)),
                         Expanded(
                             flex: 3,

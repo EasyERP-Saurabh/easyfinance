@@ -19,6 +19,10 @@ extension CategoryTypeExtension on CategoryType {
         CategoryType.income => 'I',
         CategoryType.expenditure => 'E'
       };
+  String get label => switch (this) {
+        CategoryType.income => 'Income',
+        CategoryType.expenditure => 'Expenditure'
+      };
 }
 
 CategoryType? getCategoryType(String value) => switch (value) {
